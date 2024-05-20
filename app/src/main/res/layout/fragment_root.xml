@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".root"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Добро пожаловать в приложение для создания и редактирования электронных журналов!"
+        android:textSize="20dp"
+        android:textStyle="bold">
+    </TextView>
+    <Button
+        android:id="@+id/BTOLOG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Войти в аккаунт"
+        android:textSize="20dp">
+    </Button>
+    <Button
+        android:id="@+id/BTOREG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Зарегистрироваться"
+        android:textSize="20dp">
+    </Button>
+
+</LinearLayout>

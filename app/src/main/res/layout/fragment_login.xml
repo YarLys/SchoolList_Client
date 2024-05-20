@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".Login">
+
+    <TextView
+        android:layout_width="400dp"
+        android:layout_height="55dp"
+        android:text="Пожалуйста, введите ваши логин и пароль"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:gravity="center">
+    </TextView>
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Введите свой email">
+    </EditText>
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Введите свой пароль">
+    </EditText>
+    <Button
+        android:id="@+id/BLOGTOPROF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Войти"
+        android:textSize="20dp">
+    </Button>
+
+</LinearLayout>
