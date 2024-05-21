@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,7 +63,19 @@ public class Login extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         Button button = view.findViewById(R.id.BLOGTOPROF);
-        button.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_login_to_profile));
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Validator.checkEmail(view.findViewById(R.id.LOGETemail)) &&
+                    Validator.checkPassword(view.findViewById(R.id.LOGETpassword))) {
+
+                    Navigation.findNavController(view).navigate(R.id.action_login_to_profile);
+                    Toast.makeText(getContext(), "Вы успешно вошли в аккаунт!", Toast.LENGTH_LONG).show();
+
+                }
+            }
+        });
+        //button.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_login_to_profile));
         return view;
     }
 }

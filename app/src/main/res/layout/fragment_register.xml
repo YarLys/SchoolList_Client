@@ -22,36 +22,42 @@
         android:textStyle="bold">
     </TextView>
     <EditText
+        android:id="@+id/ETfname"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="*Введите имя"
         android:textSize="20dp">
     </EditText>
     <EditText
+        android:id="@+id/ETsurname"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="*Введите фамилию"
         android:textSize="20dp">
     </EditText>
     <EditText
+        android:id="@+id/ETlname"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="Введите отчество"
         android:textSize="20dp">
     </EditText>
     <EditText
+        android:id="@+id/ETphone"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="*Введите телефон"
         android:textSize="20dp">
     </EditText>
     <EditText
+        android:id="@+id/ETemail"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="*Введите email"
         android:textSize="20dp">
     </EditText>
     <EditText
+        android:id="@+id/ETpassword"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="*Введите пароль"

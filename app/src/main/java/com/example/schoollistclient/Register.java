@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,7 +64,20 @@ public class Register extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         Button button = view.findViewById(R.id.BREGTOPROF);
-        button.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_register_to_profile));
+        //button.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_register_to_profile));
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Validator.checkFirstName(view.findViewById(R.id.ETfname)) && Validator.checkSurname(view.findViewById(R.id.ETsurname))
+                    && Validator.checkPhone(view.findViewById(R.id.ETphone)) && Validator.checkEmail(view.findViewById(R.id.ETemail))
+                    && Validator.checkPassword(view.findViewById(R.id.ETpassword))) {
+
+                    Navigation.findNavController(view).navigate(R.id.action_register_to_profile);
+                    Toast.makeText(getContext(), "Вы успешно зарегистрированы!", Toast.LENGTH_LONG).show();
+
+                }
+            }
+        });
         return view;
     }
 }
