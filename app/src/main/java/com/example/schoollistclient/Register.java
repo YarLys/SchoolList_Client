@@ -76,7 +76,7 @@ public class Register extends Fragment {
         //button.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_register_to_profile));
         button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { // сохраним введённые поля
                 EditText first_name = view.findViewById(R.id.ETfname);
                 EditText surname = view.findViewById(R.id.ETsurname);
                 EditText last_name = view.findViewById(R.id.ETlname);
@@ -84,7 +84,7 @@ public class Register extends Fragment {
                 EditText email = view.findViewById(R.id.ETemail);
                 EditText password = view.findViewById(R.id.ETpassword);
 
-                if (Validator.checkFirstName(first_name) && Validator.checkSurname(surname)
+                if (Validator.checkFirstName(first_name) && Validator.checkSurname(surname) // если ввод корректный
                     && Validator.checkPhone(phone) && Validator.checkEmail(email) && Validator.checkPassword(password)) {
 
                     retrofitService retrofitService = new retrofitService();
@@ -97,17 +97,18 @@ public class Register extends Fragment {
                     teacher.setPhone(phone.getText().toString());
                     teacher.setEmail(email.getText().toString());
                     teacher.setPassword(password.getText().toString());
-                    teacherAPI.saveTeacher(teacher)
+                    teacherAPI.saveTeacher(teacher)  // отправим запрос на сервер
                             .enqueue(new Callback<Teacher>() {
                             @Override
-                            public void onResponse(Call<Teacher> call, Response<Teacher> response) {
+                            public void onResponse(Call<Teacher> call, Response<Teacher> response) { // сервер ответил
+                                // вырежем из его ответа кусок с кодом
                                 String response_code = response.toString().substring(response.toString().indexOf("code=")+5, response.toString().indexOf("code=")+8);
                                 Log.d("Response_Code", response_code);
-                                if (response_code.equals("200")) {
-                                    Navigation.findNavController(view).navigate(R.id.action_register_to_profile);
+                                if (response_code.equals("200")) { // ответ OK
+                                    Navigation.findNavController(view).navigate(R.id.action_register_to_profile); // перейдём в окно профиля
                                     Toast.makeText(getContext(), "Вы успешно зарегистрированы!", Toast.LENGTH_LONG).show();
                                 }
-                                else { // если уже есть аккаунт с таким логином/телефоном
+                                else { // если уже есть аккаунт с таким логином/телефоном или проблема в ссылке/запросе
                                     Toast.makeText(getContext(), "Ошибка сервера " + response_code, Toast.LENGTH_LONG).show();
                                 }
                             }
