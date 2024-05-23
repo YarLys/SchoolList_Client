@@ -97,9 +97,9 @@ public class Register extends Fragment {
                     teacher.setPhone(phone.getText().toString());
                     teacher.setEmail(email.getText().toString());
                     teacher.setPassword(password.getText().toString());
-                    teacherAPI.saveTeacher(teacher)  // отправим запрос на сервер
+                    teacherAPI.saveTeacher(teacher) // отправим запрос на сервер
                             .enqueue(new Callback<Teacher>() {
-                            @Override
+                            @Override // здесь надо научиться передавать информацию о пользователе в следующий фрагмент через Args
                             public void onResponse(Call<Teacher> call, Response<Teacher> response) { // сервер ответил
                                 // вырежем из его ответа кусок с кодом
                                 String response_code = response.toString().substring(response.toString().indexOf("code=")+5, response.toString().indexOf("code=")+8);
@@ -109,7 +109,10 @@ public class Register extends Fragment {
                                     Toast.makeText(getContext(), "Вы успешно зарегистрированы!", Toast.LENGTH_LONG).show();
                                 }
                                 else { // если уже есть аккаунт с таким логином/телефоном или проблема в ссылке/запросе
-                                    Toast.makeText(getContext(), "Ошибка сервера " + response_code, Toast.LENGTH_LONG).show();
+                                    if (response_code.equals("400")) {
+                                        Log.d("REGISTER_ERROR", "Аккаунт с таким email уже существует.");
+                                        Toast.makeText(getContext(), "Ошибка: " + response_code + " Аккаунт с такими данными уже существует!", Toast.LENGTH_LONG).show();
+                                    }
                                 }
                             }
                             @Override

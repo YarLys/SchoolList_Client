@@ -5,11 +5,22 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.schoollistclient.models.Teacher;
+import com.example.schoollistclient.retrofit.LoginAPI;
+import com.example.schoollistclient.retrofit.TeacherAPI;
+import com.example.schoollistclient.retrofit.retrofitService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,16 +77,54 @@ public class Login extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Validator.checkEmail(view.findViewById(R.id.LOGETemail)) &&
-                    Validator.checkPassword(view.findViewById(R.id.LOGETpassword))) {
+                EditText email = view.findViewById(R.id.LOGETemail);
+                EditText password = view.findViewById(R.id.LOGETpassword);
 
-                    Navigation.findNavController(view).navigate(R.id.action_login_to_profile);
-                    Toast.makeText(getContext(), "Вы успешно вошли в аккаунт!", Toast.LENGTH_LONG).show();
+                if (Validator.checkEmail(email) && Validator.checkPassword(password)) {
 
+                    Log.d("LOGIN_INFO", email.getText().toString());
+                    Log.d("LOGIN_INFO", password.getText().toString());
+
+                    retrofitService retrofitService = new retrofitService();
+                    LoginAPI loginAPI = retrofitService.getRetrofit().create(LoginAPI.class);
+
+                    Teacher teacher = new Teacher();
+                    teacher.setEmail(email.getText().toString());
+                    teacher.setPassword(password.getText().toString());
+
+                    loginAPI.loginUser(teacher)
+                            .enqueue(new Callback<Teacher>() { // отправляем запрос на сервер
+                                @Override
+                                public void onResponse(Call<Teacher> call, Response<Teacher> response) {
+                                    String response_code = response.toString().substring(response.toString().indexOf("code=")+5, response.toString().indexOf("code=")+8);
+                                    Log.d("Response_Code", response_code);
+                                    if (response_code.equals("200")) { // если запрос выполнен успешно
+                                        Log.d("LOGIN", response.body().toString()); // информация о пользователе
+                                        Log.d("LOGIN", "Sucessful");
+                                        Navigation.findNavController(view).navigate(R.id.action_login_to_profile); // переходим на страницу профиля
+                                        Toast.makeText(getContext(), "Вы успешно вошли в свой аккаунт!", Toast.LENGTH_LONG).show();
+                                    }
+                                    else {
+                                        if (response_code.equals("400")) {
+                                            Log.d("LOGIN_ERROR", "Логин или пароль не совпадают");
+                                            Toast.makeText(getContext(), "Проверьте корректность введённых данных!", Toast.LENGTH_LONG).show();
+                                        }
+                                        else {
+                                            Log.d("LOGIN_ERROR", "Ошибка сервера");
+                                            Toast.makeText(getContext(), "Проверьте корректность введённых данных! Возможна ошибка сервера!", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Teacher> call, Throwable t) { // если не удалось соединиться с сервером
+                                    Log.d("SERVER_ERROR", t.toString());
+                                    Toast.makeText(getContext(), "Не удалось войти в аккаунт. Ошибка сервера: " + t, Toast.LENGTH_LONG).show();
+                                }
+                            });
                 }
             }
         });
-        //button.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_login_to_profile));
         return view;
     }
 }
