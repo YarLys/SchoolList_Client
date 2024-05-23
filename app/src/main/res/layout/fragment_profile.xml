@@ -1,14 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".profile">
+    tools:context=".profile"
+    android:orientation="vertical"
+    android:gravity="center">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Here will be your profile page" />
+        android:id="@+id/Your_profile"
+        android:layout_marginBottom="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ваш профиль"
+        android:textSize="30dp">
+    </TextView>
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/Profile_fname"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="Ваше имя"
+            android:layout_gravity="left">
+        </TextView>
+        <TextView
+            android:id="@+id/Profile_surname"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="Ваша фамилия"
+            android:layout_gravity="left">
+        </TextView>
+        <TextView
+            android:id="@+id/Profile_lname"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="Ваше отчество"
+            android:layout_gravity="left">
+        </TextView>
+        <TextView
+            android:id="@+id/Profile_phone"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="Ваш телефон"
+            android:layout_gravity="left">
+        </TextView>
+        <TextView
+            android:id="@+id/Profile_email"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="Ваш email"
+            android:layout_gravity="left">
+        </TextView>
+    </LinearLayout>
+    <Button
+        android:id="@+id/Sign_out"
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Выйти из аккаунта"
+        android:textSize="21dp">
+    </Button>
 
-</FrameLayout>
+</LinearLayout>

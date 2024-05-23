@@ -104,8 +104,17 @@ public class Register extends Fragment {
                                 // вырежем из его ответа кусок с кодом
                                 String response_code = response.toString().substring(response.toString().indexOf("code=")+5, response.toString().indexOf("code=")+8);
                                 Log.d("Response_Code", response_code);
+                                Log.d("REGISTRATION", response.body().toString());
                                 if (response_code.equals("200")) { // ответ OK
-                                    Navigation.findNavController(view).navigate(R.id.action_register_to_profile); // перейдём в окно профиля
+                                    teacher.setFirst_name(response.body().getFirst_name());
+                                    teacher.setSurname(response.body().getSurname());
+                                    teacher.setLast_name(response.body().getLast_name());
+                                    teacher.setPhone(response.body().getPhone());
+                                    teacher.setPassword(response.body().getPassword());
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("TeacherInfo", teacher); // Передадим информацию о текущем пользователе
+
+                                    Navigation.findNavController(view).navigate(R.id.action_register_to_profile, bundle); // перейдём в окно профиля
                                     Toast.makeText(getContext(), "Вы успешно зарегистрированы!", Toast.LENGTH_LONG).show();
                                 }
                                 else { // если уже есть аккаунт с таким логином/телефоном или проблема в ссылке/запросе

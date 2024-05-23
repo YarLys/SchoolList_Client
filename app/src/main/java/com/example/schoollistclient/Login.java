@@ -101,7 +101,16 @@ public class Login extends Fragment {
                                     if (response_code.equals("200")) { // если запрос выполнен успешно
                                         Log.d("LOGIN", response.body().toString()); // информация о пользователе
                                         Log.d("LOGIN", "Sucessful");
-                                        Navigation.findNavController(view).navigate(R.id.action_login_to_profile); // переходим на страницу профиля
+
+                                        teacher.setFirst_name(response.body().getFirst_name());
+                                        teacher.setSurname(response.body().getSurname());
+                                        teacher.setLast_name(response.body().getLast_name());
+                                        teacher.setPhone(response.body().getPhone());
+                                        teacher.setPassword(response.body().getPassword());
+                                        Bundle bundle = new Bundle();
+                                        bundle.putSerializable("TeacherInfo", teacher); // Передадим информацию о текущем пользователе
+
+                                        Navigation.findNavController(view).navigate(R.id.action_login_to_profile, bundle); // переходим на страницу профиля
                                         Toast.makeText(getContext(), "Вы успешно вошли в свой аккаунт!", Toast.LENGTH_LONG).show();
                                     }
                                     else {

@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_register_to_profile"
             app:destination="@id/profile" />
+        <argument
+            android:name="TeacherInfo"
+            app:argType="com.example.schoollistclient.models.Teacher" />
     </fragment>
     <fragment
         android:id="@+id/login"
@@ -34,6 +37,9 @@
         <action
             android:id="@+id/action_login_to_profile"
             app:destination="@id/profile" />
+        <argument
+            android:name="TeacherInfo"
+            app:argType="com.example.schoollistclient.models.Teacher" />
     </fragment>
     <fragment
         android:id="@+id/profile"
@@ -43,10 +49,20 @@
         <action
             android:id="@+id/action_profile_to_list_edit"
             app:destination="@id/list_edit" />
+        <action
+            android:id="@+id/action_profile_to_root"
+            app:destination="@id/root" />
+        <argument
+            android:name="TeacherInfo"
+            app:argType="com.example.schoollistclient.models.Teacher" />
     </fragment>
     <fragment
         android:id="@+id/list_edit"
         android:name="com.example.schoollistclient.list_edit"
         android:label="fragment_list_edit"
-        tools:layout="@layout/fragment_list_edit" />
+        tools:layout="@layout/fragment_list_edit" >
+        <argument
+            android:name="TeacherInfo"
+            app:argType="com.example.schoollistclient.models.Teacher" />
+    </fragment>
 </navigation>
