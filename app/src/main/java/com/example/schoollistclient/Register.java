@@ -106,6 +106,7 @@ public class Register extends Fragment {
                                 Log.d("Response_Code", response_code);
                                 Log.d("REGISTRATION", response.body().toString());
                                 if (response_code.equals("200")) { // ответ OK
+                                    teacher.setId(response.body().getId());
                                     teacher.setFirst_name(response.body().getFirst_name());
                                     teacher.setSurname(response.body().getSurname());
                                     teacher.setLast_name(response.body().getLast_name());

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="left"
+    tools:context=".Functions">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Возможные действия над базой данных"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:textSize="20dp">
+    </TextView>
+    <LinearLayout
+        android:layout_marginTop="70dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/ET_classname"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:hint="Введите номер класса: '5 A'"
+            android:textSize="15dp"
+            android:layout_weight="2">
+        </EditText>
+        <EditText
+            android:id="@+id/ET_classcount"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:hint="Введите кол-во учеников"
+            android:textSize="15dp"
+            android:layout_weight="2">
+        </EditText>
+        <AutoCompleteTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Choose_teacher"
+            android:layout_weight="1"
+            android:hint="Выберите учителя">
+        </AutoCompleteTextView>
+    </LinearLayout>
+    <Button
+        android:id="@+id/Functions_add_class"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="Добавить класс"
+        android:textSize="20dp">
+    </Button>
+    <EditText
+        android:id="@+id/ET_disciplinename"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Введите название дисциплины:"
+        android:textSize="20dp"
+        android:layout_gravity="center">
+    </EditText>
+    <Button
+        android:id="@+id/Functions_add_discipline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="Добавить дисциплину"
+        android:textSize="20dp">
+    </Button>
+    <EditText
+        android:id="@+id/ET_workloadname"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Введите название уч. нагрузки:"
+        android:textSize="18dp"
+        android:layout_gravity="center">
+    </EditText>
+    <Button
+        android:id="@+id/Functions_add_workload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="Добавить учебную нагрузку"
+        android:textSize="20dp">
+    </Button>
+
+</LinearLayout>

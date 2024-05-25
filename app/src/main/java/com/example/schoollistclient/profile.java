@@ -74,6 +74,11 @@ public class profile extends Fragment {
         TextView email = view.findViewById(R.id.Profile_email);
         email.setText(teacherInfo.getEmail());
 
+        Button buttonFunc = view.findViewById(R.id.Go_to_functions); // переход на экран с добавлением классов, дисциплин, видов нагрузки
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("TeacherInfo", teacherInfo); // Передадим информацию о текущем пользователе
+        buttonFunc.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_profile_to_functions));
+
         Button buttonOut = view.findViewById(R.id.Sign_out); // кнопка выхода из профиля, возвращает на главный экран
         buttonOut.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_profile_to_root));
 

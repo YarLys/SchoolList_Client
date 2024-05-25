@@ -55,12 +55,24 @@
         <argument
             android:name="TeacherInfo"
             app:argType="com.example.schoollistclient.models.Teacher" />
+        <action
+            android:id="@+id/action_profile_to_functions"
+            app:destination="@id/functions" />
     </fragment>
     <fragment
         android:id="@+id/list_edit"
         android:name="com.example.schoollistclient.list_edit"
         android:label="fragment_list_edit"
         tools:layout="@layout/fragment_list_edit" >
+        <argument
+            android:name="TeacherInfo"
+            app:argType="com.example.schoollistclient.models.Teacher" />
+    </fragment>
+    <fragment
+        android:id="@+id/functions"
+        android:name="com.example.schoollistclient.Functions"
+        android:label="fragment_functions"
+        tools:layout="@layout/fragment_functions" >
         <argument
             android:name="TeacherInfo"
             app:argType="com.example.schoollistclient.models.Teacher" />

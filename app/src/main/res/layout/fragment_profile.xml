@@ -66,8 +66,24 @@
         </TextView>
     </LinearLayout>
     <Button
-        android:id="@+id/Sign_out"
+        android:id="@+id/Go_to_list"
         android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Перейти к журналу"
+        android:textSize="21dp">
+    </Button>
+    <Button
+        android:id="@+id/Go_to_functions"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Дополнительные функции"
+        android:textSize="17dp">
+    </Button>
+    <Button
+        android:id="@+id/Sign_out"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Выйти из аккаунта"

@@ -102,6 +102,7 @@ public class Login extends Fragment {
                                         Log.d("LOGIN", response.body().toString()); // информация о пользователе
                                         Log.d("LOGIN", "Sucessful");
 
+                                        teacher.setId(response.body().getId());
                                         teacher.setFirst_name(response.body().getFirst_name());
                                         teacher.setSurname(response.body().getSurname());
                                         teacher.setLast_name(response.body().getLast_name());
