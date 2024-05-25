@@ -18,10 +18,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.schoollistclient.models.Group;
+import com.example.schoollistclient.models.Subject;
 import com.example.schoollistclient.models.Teacher;
+import com.example.schoollistclient.models.Workload;
 import com.example.schoollistclient.retrofit.GroupAPI;
 import com.example.schoollistclient.retrofit.LoginAPI;
+import com.example.schoollistclient.retrofit.SubjectAPI;
 import com.example.schoollistclient.retrofit.TeacherAPI;
+import com.example.schoollistclient.retrofit.WorkloadAPI;
 import com.example.schoollistclient.retrofit.retrofitService;
 
 import java.io.Serializable;
@@ -52,6 +56,8 @@ public class Functions extends Fragment {
     private EditText className;
     private EditText classCount;
     private AutoCompleteTextView selectedTeacher;
+    private EditText subjectName;
+    private EditText workloadName;
 
     public Functions() {
         // Required empty public constructor
@@ -83,6 +89,8 @@ public class Functions extends Fragment {
         buttonAddWorkload = view.findViewById(R.id.Functions_add_workload);
         className = view.findViewById(R.id.ET_classname);
         classCount = view.findViewById(R.id.ET_classcount);
+        subjectName = view.findViewById(R.id.ET_disciplinename);
+        workloadName = view.findViewById(R.id.ET_workloadname);
 
         // Получим список учителей. Создадим из него массив строк, хранящих ФИО каждого и поместим его в адаптер спиннера
         ArrayList<String> teachersFIO = new ArrayList<>();
@@ -97,22 +105,20 @@ public class Functions extends Fragment {
         // Добавляем адаптер выпадающему списку
         selectedTeacher.setAdapter(adapter);
         selectedTeacher.setThreshold(1);
-        /*selectedTeacher.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("Item selected", "OK" + parent.getItemAtPosition(position).toString());
-                // Получим выбранного учителя
-                //selectedTeacher.setText(parent.getItemAtPosition(position).toString());
-            }
-        });*/
 
         // Теперь обработаем нажатие на кнопку "Добавить класс" и в нём пошлём запрос и обработаем ответ сервера
-        addClassListener();
+        addClass();
+
+        //Обработаем кнопку "Добавить дисциплину". Если всё норм, то пошлём запрос на сервер для сохранения
+        addSubject();
+
+        // Обработаем кнопку "Добавить учебную нагрузку". Если всё норм, то сохраняем её на сервере.
+        addWorkload();
 
         return view;
     }
 
-    public void addClassListener() { // функция обработчик для кнопки добавления класса. посылает запрос на добавление группы
+    public void addClass() { // функция обработчик для кнопки добавления класса. посылает запрос на добавление группы
         buttonAddClass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,9 +138,9 @@ public class Functions extends Fragment {
                             .enqueue(new Callback<Group>() { // запрос
                                 @Override
                                 public void onResponse(Call<Group> call, Response<Group> response) {
-                                    Log.d("ADD_CLASS", response.body().toString());
                                     String response_code = response.toString().substring(response.toString().indexOf("code=") + 5, response.toString().indexOf("code=") + 8);
                                     if (response_code.equals("200")) {
+                                        Log.d("ADD_CLASS", response.body().toString());
                                         Log.d("ADD_CLASS", "SUCCESSFUL");
                                         Toast.makeText(getContext(), "Вы успешно добавили группу!", Toast.LENGTH_LONG).show();
                                     } else {
@@ -154,6 +160,80 @@ public class Functions extends Fragment {
                     if (className.getText().toString().isEmpty()) className.setError("Название класса не может быть пустым!");
                     if (classCount.getText().toString().isEmpty() || classCount.getText().toString().equals("0")) classCount.setError("Количество учеников не может быть пустым!");
                     if (selectedTeacher.getText().toString().isEmpty()) selectedTeacher.setError("Выберите учителя!");
+                }
+            }
+        });
+    }
+
+    public void addSubject() {
+        buttonAddSubject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!subjectName.getText().toString().isEmpty()) {
+                    retrofitService retrofitService = new retrofitService();
+                    SubjectAPI subjectAPI = retrofitService.getRetrofit().create(SubjectAPI.class);
+
+                    subjectAPI.saveSubject(subjectName.getText().toString())
+                            .enqueue(new Callback<Subject>() {
+                                @Override
+                                public void onResponse(Call<Subject> call, Response<Subject> response) {
+                                    String response_code = response.toString().substring(response.toString().indexOf("code=") + 5, response.toString().indexOf("code=") + 8);
+                                    if (response_code.equals("200")) {
+                                        Log.d("ADD_SUBJECT", response.body().toString());
+                                        Log.d("ADD_SUBJECT", "SUCCESSFUL");
+                                        Toast.makeText(getContext(), "Вы успешно добавили дисциплину!", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Log.d("ADD_SUBJECT_ERR", response_code);
+                                        Toast.makeText(getContext(), "Ошибка добавления дисциплины: " + response_code, Toast.LENGTH_LONG).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Subject> call, Throwable t) {
+                                    Log.d("ADD_SUBJECT_SERV_ERR", t.toString());
+                                    Toast.makeText(getContext(), "Ошибка на сервере: " + t, Toast.LENGTH_LONG).show();
+                                }
+                            });
+                }
+                else {
+                    subjectName.setError("Название дисциплины не должно быть пустым!");
+                }
+            }
+        });
+    }
+
+    public void addWorkload() {
+        buttonAddWorkload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!workloadName.getText().toString().isEmpty()) {
+                    retrofitService retrofitService = new retrofitService();
+                    WorkloadAPI workloadAPI = retrofitService.getRetrofit().create(WorkloadAPI.class);
+
+                    workloadAPI.saveSubject(workloadName.getText().toString())
+                            .enqueue(new Callback<Workload>() {
+                                @Override
+                                public void onResponse(Call<Workload> call, Response<Workload> response) {
+                                    String response_code = response.toString().substring(response.toString().indexOf("code=") + 5, response.toString().indexOf("code=") + 8);
+                                    if (response_code.equals("200")) {
+                                        Log.d("ADD_WORKLOAD", response.body().toString());
+                                        Log.d("ADD_WORKLOAD", "SUCCESSFUL");
+                                        Toast.makeText(getContext(), "Вы успешно добавили учебную нагрузку!", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Log.d("ADD_WORKLOAD_ERR", response_code);
+                                        Toast.makeText(getContext(), "Ошибка добавления учебной нагрузки: " + response_code, Toast.LENGTH_LONG).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Workload> call, Throwable t) {
+                                    Log.d("ADD_WORKLOAD_SERV_ERR", t.toString());
+                                    Toast.makeText(getContext(), "Ошибка на сервере: " + t, Toast.LENGTH_LONG).show();
+                                }
+                            });
+                }
+                else {
+                    workloadName.setError("Учебная нагрузка не может быть пустой!");
                 }
             }
         });
