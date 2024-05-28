@@ -99,13 +99,13 @@ public class Register extends Fragment {
                     teacher.setPassword(password.getText().toString());
                     teacherAPI.saveTeacher(teacher) // отправим запрос на сервер
                             .enqueue(new Callback<Teacher>() {
-                            @Override // здесь надо научиться передавать информацию о пользователе в следующий фрагмент через Args
+                            @Override
                             public void onResponse(Call<Teacher> call, Response<Teacher> response) { // сервер ответил
                                 // вырежем из его ответа кусок с кодом
                                 String response_code = response.toString().substring(response.toString().indexOf("code=")+5, response.toString().indexOf("code=")+8);
                                 Log.d("Response_Code", response_code);
-                                Log.d("REGISTRATION", response.body().toString());
                                 if (response_code.equals("200")) { // ответ OK
+                                    Log.d("REGISTRATION", response.body().toString());
                                     teacher.setId(response.body().getId());
                                     teacher.setFirst_name(response.body().getFirst_name());
                                     teacher.setSurname(response.body().getSurname());

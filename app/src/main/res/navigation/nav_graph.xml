@@ -67,6 +67,9 @@
         <argument
             android:name="TeacherInfo"
             app:argType="com.example.schoollistclient.models.Teacher" />
+        <action
+            android:id="@+id/action_list_edit_to_studentEdit"
+            app:destination="@id/studentEdit" />
     </fragment>
     <fragment
         android:id="@+id/functions"
@@ -76,5 +79,17 @@
         <argument
             android:name="TeacherInfo"
             app:argType="com.example.schoollistclient.models.Teacher" />
+    </fragment>
+    <fragment
+        android:id="@+id/studentEdit"
+        android:name="com.example.schoollistclient.StudentEdit"
+        android:label="fragment_student_edit"
+        tools:layout="@layout/fragment_student_edit" >
+        <action
+            android:id="@+id/action_studentEdit_to_list_edit"
+            app:destination="@id/list_edit" />
+        <argument
+            android:name="StudentInfo"
+            app:argType="com.example.schoollistclient.models.Student" />
     </fragment>
 </navigation>

@@ -34,6 +34,7 @@ android {
 dependencies {
     implementation(group = "com.squareup.retrofit2", name = "retrofit", version = "2.9.0")
     implementation(group = "com.squareup.retrofit2", name = "converter-gson", version = "2.9.0")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.12.0")

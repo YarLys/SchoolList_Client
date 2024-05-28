@@ -3,17 +3,40 @@ package com.example.schoollistclient;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.example.schoollistclient.adapters.StudentsAdapter;
+import com.example.schoollistclient.models.Student;
+import com.example.schoollistclient.models.Teacher;
+import com.example.schoollistclient.retrofit.StudentAPI;
+import com.example.schoollistclient.retrofit.TeacherAPI;
+import com.example.schoollistclient.retrofit.retrofitService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link list_edit#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class list_edit extends Fragment {
+public class list_edit extends Fragment implements SwipeRefreshLayout.OnRefreshListener, RecyclerViewClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +44,10 @@ public class list_edit extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
+    SwipeRefreshLayout refreshLayout;
+    View view;
+    ArrayList<Student> students = new ArrayList<>();
+
     private String mParam1;
     private String mParam2;
 
@@ -59,6 +86,80 @@ public class list_edit extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list_edit, container, false);
+        view = inflater.inflate(R.layout.fragment_list_edit, container, false);
+
+        // Получим список студентов и отобразим его
+        showStudents();
+
+        // Обработка обновления страницы пользователем
+        refreshLayout = view.findViewById(R.id.Refresh_layout);
+        refreshLayout.setOnRefreshListener(this);
+
+        // Обработка нажатия клавиши для добавления студента
+        addStudent();
+
+        // Обработка нажатия клавиши для редактирования студента
+
+
+        return view;
+    }
+    private void addStudent() {
+        Button buttonAddStudent = view.findViewById(R.id.AddStudent);
+        buttonAddStudent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText surname = view.findViewById(R.id.ET_student_surname);
+                EditText f_name = view.findViewById(R.id.ET_student_fname);
+                EditText l_name = view.findViewById(R.id.ET_student_lname);
+                EditText phone = view.findViewById(R.id.ET_student_phone);
+                EditText class_id = view.findViewById(R.id.ET_student_classid);
+                if (Validator.checkSurname(surname) && Validator.checkFirstName(f_name) && Validator.checkPhone(phone)
+                        && !class_id.getText().toString().isEmpty()) { // если данные корректны
+                    Student student = new Student(f_name.getText().toString(), surname.getText().toString(), l_name.getText().toString(),
+                            phone.getText().toString(), class_id.getText().toString());
+                    Network network = new Network();
+                    Handler studentHandler = new Handler(msg -> {
+                        if (msg.what == 200) {
+                            Toast.makeText(getContext(), "Вы успешно добавили ученика!", Toast.LENGTH_LONG).show();
+                            showStudents();
+                        }
+                        else Toast.makeText(getContext(), "Ошибка добавления ученика: " + msg.what, Toast.LENGTH_LONG).show();
+                        return false;
+                    });
+                    network.saveStudent(studentHandler, student);
+                }
+                else {
+                    if (class_id.getText().toString().isEmpty()) class_id.setError("Класс не может быть пустым!");
+                }
+            }
+        });
+    }
+
+    private void showStudents() {
+        Network network = new Network();
+        Handler studentsHandler = new Handler(msg -> {
+            if (msg.what == 200) {
+                RecyclerView recyclerView = view.findViewById(R.id.Students_list); // наш список для отображения учеников
+                recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+                students = (ArrayList<Student>) msg.obj;
+                StudentsAdapter studentsAdapter = new StudentsAdapter(getContext(), students, this); // создаем адаптер
+                recyclerView.setAdapter(studentsAdapter); // устанавливаем адаптер
+            }
+            return false;
+        });
+        network.getStudents(studentsHandler);
+    }
+
+    @Override
+    public void onRefresh() {
+        showStudents();
+        refreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void recyclerViewClickListened(View view, int position) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("StudentInfo", students.get(position));
+        Navigation.findNavController(view).navigate(R.id.action_list_edit_to_studentEdit, bundle);
     }
 }

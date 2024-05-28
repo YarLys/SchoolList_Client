@@ -92,7 +92,7 @@ public class Functions extends Fragment {
         subjectName = view.findViewById(R.id.ET_disciplinename);
         workloadName = view.findViewById(R.id.ET_workloadname);
 
-        // Получим список учителей. Создадим из него массив строк, хранящих ФИО каждого и поместим его в адаптер спиннера
+        // Получим список учителей. Создадим из него массив строк, хранящих ФИО каждого и поместим его в адаптер
         ArrayList<String> teachersFIO = new ArrayList<>();
         getTeachers(teachersFIO); // Вызовем метод, сохраняющий в массив ФИО всех учителей. Посылает запрос на получение всех Teachers на сервер
 
@@ -210,7 +210,7 @@ public class Functions extends Fragment {
                     retrofitService retrofitService = new retrofitService();
                     WorkloadAPI workloadAPI = retrofitService.getRetrofit().create(WorkloadAPI.class);
 
-                    workloadAPI.saveSubject(workloadName.getText().toString())
+                    workloadAPI.saveWorkload(workloadName.getText().toString())
                             .enqueue(new Callback<Workload>() {
                                 @Override
                                 public void onResponse(Call<Workload> call, Response<Workload> response) {

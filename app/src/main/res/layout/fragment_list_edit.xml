@@ -1,14 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".list_edit">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/Students_list"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/Refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="500dp">
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/Students_list"
+            android:layout_width="match_parent"
+            android:layout_height="500dp">
+        </androidx.recyclerview.widget.RecyclerView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/ET_student_surname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="*Фамилия"
+            android:layout_weight="2">
+        </EditText>
+        <EditText
+            android:id="@+id/ET_student_fname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="*Имя"
+            android:layout_weight="2">
+        </EditText>
+        <EditText
+            android:id="@+id/ET_student_lname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Отчество"
+            android:layout_weight="2">
+        </EditText>
+        <EditText
+            android:id="@+id/ET_student_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="*Номер тел"
+            android:layout_weight="2">
+        </EditText>
+        <EditText
+            android:id="@+id/ET_student_classid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Класс"
+            android:layout_weight="2">
+        </EditText>
+    </LinearLayout>
+    <Button
+        android:id="@+id/AddStudent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Добавить ученика"
+        android:textSize="20dp">
+    </Button>
 
-</FrameLayout>
+</LinearLayout>

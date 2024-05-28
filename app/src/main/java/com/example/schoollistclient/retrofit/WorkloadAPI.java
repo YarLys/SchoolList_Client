@@ -13,7 +13,7 @@ import retrofit2.http.Path;
 
 public interface WorkloadAPI {
     @POST("/api/workloads/save/{name}")
-    public Call<Workload> saveSubject(@Path("name") String workloadName);
+    public Call<Workload> saveWorkload(@Path("name") String workloadName);
     @GET("/api/workloads/get")
     public Call<List<Workload>> getAllWorkloads();
     @GET("/api/workloads/get/{id}")
