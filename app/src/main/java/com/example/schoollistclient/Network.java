@@ -262,4 +262,124 @@ public class Network {
                     }
                 });
     }
+    public void getSubjects(Handler handler) {
+        retrofitService retrofitService = new retrofitService();
+        SubjectAPI subjectAPI = retrofitService.getRetrofit().create(SubjectAPI.class);
+        subjectAPI.getAllSubjects()
+                .enqueue(new Callback<List<Subject>>() {
+                    @Override
+                    public void onResponse(Call<List<Subject>> call, Response<List<Subject>> response) {
+                        String response_code = response.toString().substring(response.toString().indexOf("code=")+5, response.toString().indexOf("code=")+8);
+                        Message msg = new Message();
+                        if (response_code.equals("200")) {
+                            msg.obj = response.body();
+                            msg.what = 200;
+                            Log.d("GET_SUBJECTS", "SUCCESS");
+                        }
+                        else {
+                            msg.what = Integer.parseInt(response_code);
+                            Log.d("GET_SUBJECTS_ERR", response_code);
+                        }
+                        handler.sendMessage(msg);
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Subject>> call, Throwable t) {
+                        Log.d("SERVER_ERROR", t.toString());
+                        Message msg = new Message();
+                        msg.what = 500;
+                        handler.sendMessage(msg);
+                    }
+                });
+    }
+    public void getWorkloads(Handler handler) {
+        retrofitService retrofitService = new retrofitService();
+        WorkloadAPI workloadAPI = retrofitService.getRetrofit().create(WorkloadAPI.class);
+        workloadAPI.getAllWorkloads()
+                .enqueue(new Callback<List<Workload>>() {
+                    @Override
+                    public void onResponse(Call<List<Workload>> call, Response<List<Workload>> response) {
+                        String response_code = response.toString().substring(response.toString().indexOf("code=")+5, response.toString().indexOf("code=")+8);
+                        Message msg = new Message();
+                        if (response_code.equals("200")) {
+                            msg.obj = response.body();
+                            msg.what = 200;
+                            Log.d("GET_WORKLOADS", "SUCCESS");
+                        }
+                        else {
+                            msg.what = Integer.parseInt(response_code);
+                            Log.d("GET_WORKLOADS_ERR", response_code);
+                        }
+                        handler.sendMessage(msg);
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Workload>> call, Throwable t) {
+                        Log.d("SERVER_ERROR", t.toString());
+                        Message msg = new Message();
+                        msg.what = 500;
+                        handler.sendMessage(msg);
+                    }
+                });
+    }
+    public void saveMark(Handler handler, Mark mark) {
+        retrofitService retrofitService = new retrofitService();
+        MarkAPI markAPI = retrofitService.getRetrofit().create(MarkAPI.class);
+        markAPI.saveMark(mark)
+                .enqueue(new Callback<Mark>() {
+                    @Override
+                    public void onResponse(Call<Mark> call, Response<Mark> response) {
+                        String response_code = response.toString().substring(response.toString().indexOf("code=")+5, response.toString().indexOf("code=")+8);
+                        Message msg = new Message();
+                        if (response_code.equals("200")) {
+                            msg.obj = response.body();
+                            msg.what = 200;
+                            Log.d("SAVE_MARK", "SUCCESS");
+                        }
+                        else {
+                            msg.what = Integer.parseInt(response_code);
+                            Log.d("SAVE_MARK_ERR", response_code);
+                        }
+                        handler.sendMessage(msg);
+                    }
+
+                    @Override
+                    public void onFailure(Call<Mark> call, Throwable t) {
+                        Log.d("SERVER_ERROR", t.toString());
+                        Message msg = new Message();
+                        msg.what = 500;
+                        handler.sendMessage(msg);
+                    }
+                });
+    }
+    public void getStudentSubjectMarks(Handler handler, Integer studentId, Integer subjectId) {
+        retrofitService retrofitService = new retrofitService();
+        MarkAPI markAPI = retrofitService.getRetrofit().create(MarkAPI.class);
+        markAPI.getStudentSubjectMarks(studentId, subjectId)
+                .enqueue(new Callback<List<Mark>>() {
+                    @Override
+                    public void onResponse(Call<List<Mark>> call, Response<List<Mark>> response) {
+                        String response_code = response.toString().substring(response.toString().indexOf("code=")+5, response.toString().indexOf("code=")+8);
+                        Message msg = new Message();
+                        if (response_code.equals("200")) {
+                            msg.obj = response.body();
+                            msg.what = 200;
+                            Log.d("GET_ST_SUBJ_MARKS", "SUCCESS");
+                        }
+                        else {
+                            msg.what = Integer.parseInt(response_code);
+                            Log.d("GET_ST_SUBJ_MARKS_ERR", response_code);
+                        }
+                        handler.sendMessage(msg);
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Mark>> call, Throwable t) {
+                        Log.d("SERVER_ERROR", t.toString());
+                        Message msg = new Message();
+                        msg.what = 500;
+                        handler.sendMessage(msg);
+                    }
+                });
+    }
 }

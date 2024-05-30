@@ -15,7 +15,11 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +27,8 @@ import com.example.schoollistclient.adapters.MarkAdapter;
 import com.example.schoollistclient.adapters.StudentsAdapter;
 import com.example.schoollistclient.models.Mark;
 import com.example.schoollistclient.models.Student;
+import com.example.schoollistclient.models.Subject;
+import com.example.schoollistclient.models.Workload;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -43,6 +49,13 @@ public class StudentEdit extends Fragment implements SwipeRefreshLayout.OnRefres
     private ArrayList<Mark> marks;
     View view;
     SwipeRefreshLayout refreshLayout;
+    AutoCompleteTextView chooseSubject;
+    AutoCompleteTextView chooseWorkload;
+    AutoCompleteTextView chooseSubjectMenu;
+    EditText ET_value;
+    EditText ET_date;
+    ArrayList<Subject> subjects;
+    ArrayList<Workload> workloads;
 
     public StudentEdit() {
         // Required empty public constructor
@@ -88,7 +101,6 @@ public class StudentEdit extends Fragment implements SwipeRefreshLayout.OnRefres
         lname.setText(student.getLast_name());
         phone.setText(student.getPhone());
         classid.setText(student.getId_class());
-        System.out.println(student.getId());
 
         // Получим список оценок ученика и отобразим их
         showStudentMarks(student.getId());
@@ -97,8 +109,27 @@ public class StudentEdit extends Fragment implements SwipeRefreshLayout.OnRefres
         refreshLayout = view.findViewById(R.id.Refresh_layout_2);
         refreshLayout.setOnRefreshListener(this);
 
+        // Получим список всех уч. нагрузок и предметов, чтобы добавить их в выпадающие списки
+        getAndShowSubjects();
+        getAndShowWorkloads();
+
+        // Обработка нажатия клавиши добавления оценки
+        addMark(student.getId());
+
         // Обработка нажатия клавиши удаления
         deleteStudent(student);
+
+        // Если был выбран предмет
+        chooseSubjectMenu = view.findViewById(R.id.Choose_subject_menu);
+        chooseSubjectMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (!chooseSubjectMenu.getText().toString().equals("Любой")) {
+                    showStudentSubjectMarks(student.getId());
+                }
+                else showStudentMarks(student.getId());
+            }
+        });
 
         return view;
     }
@@ -116,6 +147,82 @@ public class StudentEdit extends Fragment implements SwipeRefreshLayout.OnRefres
             return false;
         });
         network.getStudentMarks(marksHandler, studentId);
+    }
+    public void showStudentSubjectMarks(Integer studentId) {
+        Integer subjectId = 0;
+        for (int i = 0; i < subjects.size(); i++) {
+            if (subjects.get(i).getName().equals(chooseSubjectMenu.getText().toString())) {
+                subjectId = subjects.get(i).getId();
+                break;
+            }
+        }
+        Network network = new Network();
+        Handler marksHandler = new Handler(msg -> {
+            if (msg.what == 200) {
+                RecyclerView recyclerView = view.findViewById(R.id.Marks_list); // наш список для отображения учеников
+                recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+                marks = (ArrayList<Mark>) msg.obj;
+                MarkAdapter markAdapter = new MarkAdapter(getContext(), marks, this); // создаем адаптер
+                recyclerView.setAdapter(markAdapter); // устанавливаем адаптер
+            }
+            return false;
+        });
+        network.getStudentSubjectMarks(marksHandler, studentId, subjectId);
+    }
+
+    public void getAndShowSubjects() {
+        Network network = new Network();
+        Handler subjectsHandler = new Handler(msg -> {
+            if (msg.what == 200) {
+                subjects = (ArrayList<Subject>) msg.obj;
+                ArrayList<String> names = new ArrayList<>();
+                for (int i = 0; i < subjects.size(); i++) {
+                    names.add(subjects.get(i).getName());
+                }
+                // выпадающий список, где можно выбирать предмет, по кот. ставится оценка
+                chooseSubject = view.findViewById(R.id.Choose_mark_subject);
+                // Создаем адаптер ArrayAdapter с помощью массива строк и стандартной разметки
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.select_dialog_singlechoice, names);
+                // Определяем разметку для использования при выборе элемента
+                adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+                // Добавляем адаптер выпадающему списку
+                chooseSubject.setAdapter(adapter);
+                chooseSubject.setThreshold(1);
+
+                // выпадающий список, где можно выбирать предмет, оценки за который будут отображаться
+                chooseSubjectMenu = view.findViewById(R.id.Choose_subject_menu);
+                names.add("Любой");
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(view.getContext(), android.R.layout.select_dialog_singlechoice, names);
+                adapter2.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+                chooseSubjectMenu.setAdapter(adapter2);
+                chooseSubjectMenu.setThreshold(1);
+            }
+            return false;
+        });
+        network.getSubjects(subjectsHandler);
+    }
+    public void getAndShowWorkloads() {
+        Network network = new Network();
+        Handler workloadsHandler = new Handler(msg -> {
+            if (msg.what == 200) {
+                workloads = (ArrayList<Workload>) msg.obj;
+                ArrayList<String> names = new ArrayList<>();
+                for (int i = 0; i < workloads.size(); i++) {
+                    names.add(workloads.get(i).getName_workload());
+                }
+                // выпадающий список, где можно выбирать предмет, по кот. ставится оценка
+                chooseWorkload = view.findViewById(R.id.Choose_mark_workload);
+                // Создаем адаптер ArrayAdapter с помощью массива строк и стандартной разметки
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.select_dialog_singlechoice, names);
+                // Определяем разметку для использования при выборе элемента
+                adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+                // Добавляем адаптер выпадающему списку
+                chooseWorkload.setAdapter(adapter);
+                chooseWorkload.setThreshold(1);
+            }
+            return false;
+        });
+        network.getWorkloads(workloadsHandler);
     }
 
     public void deleteStudent(Student student) {
@@ -137,14 +244,62 @@ public class StudentEdit extends Fragment implements SwipeRefreshLayout.OnRefres
             }
         });
     }
+    public void addMark(Integer studentId) {
+        ET_value = view.findViewById(R.id.ET_mark_value);
+        ET_date = view.findViewById(R.id.ET_mark_date);
+        Button buttonAdd = view.findViewById(R.id.B_add_mark);
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!chooseSubject.getText().toString().isEmpty() && !chooseWorkload.getText().toString().isEmpty() &&
+                !ET_value.getText().toString().isEmpty() && !ET_date.getText().toString().isEmpty()) {
+
+                    Mark mark = new Mark();
+                    mark.setId_student(studentId);
+                    mark.setValue(Integer.valueOf(ET_value.getText().toString()));
+                    mark.setDate(ET_date.getText().toString());
+                    Integer subjId = 0;
+                    Integer workId = 0;
+                    for (int i = 0; i < subjects.size(); i++) {
+                        if (subjects.get(i).getName().equals(chooseSubject.getText().toString())) {
+                            subjId = subjects.get(i).getId();
+                            break;
+                        }
+                    }
+                    for (int i = 0; i < workloads.size(); i++) {
+                        if (workloads.get(i).getName_workload().equals(chooseWorkload.getText().toString())) {
+                            workId = workloads.get(i).getId();
+                            break;
+                        }
+                    }
+                    mark.setSubject_id(subjId);
+                    mark.setWorkload_id(workId);
+
+                    Network network = new Network();
+                    Handler markHandler = new Handler(msg -> {
+                        if (msg.what == 200) {
+                            Toast.makeText(getContext(), "Вы успешно добавили оценку!", Toast.LENGTH_LONG).show();
+                            showStudentMarks(studentId);
+                        }
+                        else Toast.makeText(getContext(), "Ошибка добавления оценки: " + msg.what, Toast.LENGTH_LONG).show();
+                        return false;
+                    });
+                    network.saveMark(markHandler, mark);
+                }
+                else {
+                    if (chooseSubject.getText().toString().isEmpty()) chooseSubject.setError("Выберите предмет!");
+                    if (chooseWorkload.getText().toString().isEmpty()) chooseWorkload.setError("Выберите уч. нагрузку!");
+                    if (ET_value.getText().toString().isEmpty()) ET_value.setError("Оценка не может быть пустой!");
+                    if (ET_date.getText().toString().isEmpty()) ET_date.setError("Дата не может быть пустой!");
+                }
+            }
+        });
+    }
 
     @Override
     public void onRefresh() {
-        /*showStudents(); // обновим при возвращении, всё норм будет
-        if (chooseClass.getText().toString().equals("Любой")) showStudents();
-        else showStudentsByClass(chooseClass.getText().toString());
-        refreshLayout.setRefreshing(false);*/
         showStudentMarks(((Student) mParam1).getId());
+        if (!chooseSubjectMenu.getText().toString().equals("Любой")) showStudentSubjectMarks(((Student) mParam1).getId());
         refreshLayout.setRefreshing(false);
     }
 

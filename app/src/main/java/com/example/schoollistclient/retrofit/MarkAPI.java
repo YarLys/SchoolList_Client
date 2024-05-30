@@ -18,8 +18,8 @@ public interface MarkAPI {
     public Call<Mark> saveMark(@Body Mark mark);
     @GET("/api/marks/get_student_marks/{id}")
     public Call<List<Mark>> getStudentMarks(@Path("id") Integer studentId);
-    @GET("/api/marks/get_student_subject_marks/{id}")
-    public Call<List<Mark>> getStudentSubjectMarks(@Path("id") Integer studentId);
+    @GET("/api/marks/get_student_subject_marks/{student_id}/{subject_id}")
+    public Call<List<Mark>> getStudentSubjectMarks(@Path("student_id") Integer studentId, @Path("subject_id") Integer subjectId);
     @DELETE("/api/marks/delete/{id}")
     public Call<Mark> deleteMarkById(@Path("id") Integer markId);
     @PUT("/api/marks/update")
