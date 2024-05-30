@@ -46,14 +46,93 @@
             android:layout_weight="2">
         </TextView>
     </LinearLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Choose_subject_menu"
+            android:inputType="none"
+            android:gravity="center"
+            android:hint="Выберите предмет">
+        </AutoCompleteTextView>
+    </com.google.android.material.textfield.TextInputLayout>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/Refresh_layout_2"
+        android:layout_width="match_parent"
+        android:layout_height="400dp">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/Marks_list"
+            android:layout_width="match_parent"
+            android:layout_height="500dp">
+        </androidx.recyclerview.widget.RecyclerView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2">
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Choose_mark_subject"
+            android:inputType="none"
+            android:gravity="center"
+            android:hint="Выберите предмет">
+        </AutoCompleteTextView>
+    </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2">
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/Choose_mark_workload"
+                android:inputType="none"
+                android:gravity="center"
+                android:hint="Выберите учебную нагрузку">
+            </AutoCompleteTextView>
+        </com.google.android.material.textfield.TextInputLayout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Оценка"
+            android:gravity="center"
+            android:layout_weight="2">
+        </EditText>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Дата"
+            android:gravity="center"
+            android:layout_weight="2">
+        </EditText>
+    </LinearLayout>
+    <Button
+        android:id="@+id/B_add_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="Добавить оценку"
+        android:textSize="15dp">
+    </Button>
     <Button
         android:id="@+id/B_delete_student"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Удалить ученика"
-        android:textSize="18dp">
+        android:textSize="15dp">
     </Button>
 
 </LinearLayout>

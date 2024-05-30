@@ -96,9 +96,9 @@ public class Functions extends Fragment {
         ArrayList<String> teachersFIO = new ArrayList<>();
         getTeachers(teachersFIO); // Вызовем метод, сохраняющий в массив ФИО всех учителей. Посылает запрос на получение всех Teachers на сервер
 
-        // Короче надо будет переписать на выпадающий список, где можно выбирать, тк это не соответствует задумке
+        // выпадающий список, где можно выбирать учителя
         selectedTeacher = view.findViewById(R.id.Choose_teacher);
-        // Создаем адаптер ArrayAdapter с помощью массива строк и стандартной разметки элемета spinner
+        // Создаем адаптер ArrayAdapter с помощью массива строк и стандартной разметки
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.select_dialog_singlechoice, teachersFIO);
         // Определяем разметку для использования при выборе элемента
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);

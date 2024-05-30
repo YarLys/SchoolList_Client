@@ -20,7 +20,7 @@ public interface StudentAPI {
     @GET("/api/students/get/{id}")
     public Call<Student> getStudentById(@Path("id") Integer studentId);
     @GET("/api/students/get_class/{id}")
-    public Call<List<Student>> getStudentsByClass(@Path("id") Integer classId);
+    public Call<List<Student>> getStudentsByClass(@Path("id") String classId);
     @DELETE("/api/students/delete/{id}")
     public Call<Student> deleteStudentById(@Path("id") Integer studentId);
 }

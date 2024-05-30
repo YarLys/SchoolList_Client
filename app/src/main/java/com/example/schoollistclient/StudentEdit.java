@@ -2,11 +2,16 @@ package com.example.schoollistclient;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +19,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.schoollistclient.adapters.MarkAdapter;
+import com.example.schoollistclient.adapters.StudentsAdapter;
+import com.example.schoollistclient.models.Mark;
 import com.example.schoollistclient.models.Student;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link StudentEdit#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class StudentEdit extends Fragment {
+public class StudentEdit extends Fragment implements SwipeRefreshLayout.OnRefreshListener, RecyclerViewClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,7 +40,9 @@ public class StudentEdit extends Fragment {
 
     // TODO: Rename and change types of parameters
     private Serializable mParam1;
+    private ArrayList<Mark> marks;
     View view;
+    SwipeRefreshLayout refreshLayout;
 
     public StudentEdit() {
         // Required empty public constructor
@@ -77,11 +88,34 @@ public class StudentEdit extends Fragment {
         lname.setText(student.getLast_name());
         phone.setText(student.getPhone());
         classid.setText(student.getId_class());
+        System.out.println(student.getId());
+
+        // Получим список оценок ученика и отобразим их
+        showStudentMarks(student.getId());
+
+        // Обработка обновления страницы пользователем
+        refreshLayout = view.findViewById(R.id.Refresh_layout_2);
+        refreshLayout.setOnRefreshListener(this);
 
         // Обработка нажатия клавиши удаления
         deleteStudent(student);
 
         return view;
+    }
+
+    public void showStudentMarks(Integer studentId) {
+        Network network = new Network();
+        Handler marksHandler = new Handler(msg -> {
+            if (msg.what == 200) {
+                RecyclerView recyclerView = view.findViewById(R.id.Marks_list); // наш список для отображения учеников
+                recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+                marks = (ArrayList<Mark>) msg.obj;
+                MarkAdapter markAdapter = new MarkAdapter(getContext(), marks, this); // создаем адаптер
+                recyclerView.setAdapter(markAdapter); // устанавливаем адаптер
+            }
+            return false;
+        });
+        network.getStudentMarks(marksHandler, studentId);
     }
 
     public void deleteStudent(Student student) {
@@ -102,5 +136,20 @@ public class StudentEdit extends Fragment {
                 network.deleteStudentById(studentHandler, student.getId());
             }
         });
+    }
+
+    @Override
+    public void onRefresh() {
+        /*showStudents(); // обновим при возвращении, всё норм будет
+        if (chooseClass.getText().toString().equals("Любой")) showStudents();
+        else showStudentsByClass(chooseClass.getText().toString());
+        refreshLayout.setRefreshing(false);*/
+        showStudentMarks(((Student) mParam1).getId());
+        refreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void recyclerViewClickListened(View view, int position) {
+
     }
 }

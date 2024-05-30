@@ -7,6 +7,19 @@
     android:orientation="vertical"
     tools:context=".list_edit">
 
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Choose_class"
+            android:inputType="none"
+            android:gravity="center"
+            android:hint="Выберите класс">
+        </AutoCompleteTextView>
+    </com.google.android.material.textfield.TextInputLayout>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/Refresh_layout"
         android:layout_width="match_parent"

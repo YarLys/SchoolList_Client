@@ -2,6 +2,7 @@ package com.example.schoollistclient;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,9 +11,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -45,6 +50,7 @@ public class list_edit extends Fragment implements SwipeRefreshLayout.OnRefreshL
 
     // TODO: Rename and change types of parameters
     SwipeRefreshLayout refreshLayout;
+    AutoCompleteTextView chooseClass;
     View view;
     ArrayList<Student> students = new ArrayList<>();
 
@@ -98,8 +104,17 @@ public class list_edit extends Fragment implements SwipeRefreshLayout.OnRefreshL
         // Обработка нажатия клавиши для добавления студента
         addStudent();
 
-        // Обработка нажатия клавиши для редактирования студента
-
+        // Если был выбран класс
+        chooseClass.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (!chooseClass.getText().toString().equals("Любой")) {
+                    String classId = chooseClass.getText().toString();
+                    showStudentsByClass(classId); // отобразим учеников по классу
+                }
+                else showStudents();
+            }
+        });
 
         return view;
     }
@@ -148,11 +163,47 @@ public class list_edit extends Fragment implements SwipeRefreshLayout.OnRefreshL
             return false;
         });
         network.getStudents(studentsHandler);
+
+        // Раз получили список студентов, можем отобразить возможные классы в выпадающем списке
+        ArrayList<String> studentsClasses = new ArrayList<>();
+        studentsClasses.add("Любой");
+        for (int i = 0; i < students.size(); i++) {
+            if (!studentsClasses.contains(students.get(i).getId_class())) {
+                studentsClasses.add(students.get(i).getId_class());
+            }
+        }
+        // выпадающий список, где можно выбирать класс учеников
+        chooseClass = view.findViewById(R.id.Choose_class);
+        chooseClass.setText("Любой");
+        // Создаем адаптер ArrayAdapter с помощью массива строк и стандартной разметки
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.select_dialog_singlechoice, studentsClasses);
+        // Определяем разметку для использования при выборе элемента
+        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        // Добавляем адаптер выпадающему списку
+        chooseClass.setAdapter(adapter);
+        chooseClass.setThreshold(1);
+    }
+
+    private void showStudentsByClass(String classId) {
+        Network network = new Network();
+        Handler studentsHandler = new Handler(msg -> {
+            if (msg.what == 200) {
+                RecyclerView recyclerView = view.findViewById(R.id.Students_list); // наш список для отображения учеников
+                recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+                students = (ArrayList<Student>) msg.obj;
+                StudentsAdapter studentsAdapter = new StudentsAdapter(getContext(), students, this); // создаем адаптер
+                recyclerView.setAdapter(studentsAdapter); // устанавливаем адаптер
+            }
+            return false;
+        });
+        network.getStudentsByClass(studentsHandler, classId);
     }
 
     @Override
     public void onRefresh() {
-        showStudents();
+        showStudents(); // обновим при возвращении, всё норм будет
+        if (chooseClass.getText().toString().equals("Любой")) showStudents();
+        else showStudentsByClass(chooseClass.getText().toString());
         refreshLayout.setRefreshing(false);
     }
 

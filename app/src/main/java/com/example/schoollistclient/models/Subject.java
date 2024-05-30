@@ -1,7 +1,7 @@
 package com.example.schoollistclient.models;
 public class Subject {
     private Integer id;
-    private String name_subject;
+    private String name;
     public Integer getId() {
         return id;
     }
@@ -10,22 +10,20 @@ public class Subject {
         this.id = id;
     }
 
-    public String getName() {
-        return name_subject;
-    }
+    public String getName() { return name; }
 
     public void setName(String name) {
-        this.name_subject = name;
+        this.name = name;
     }
 
     public Subject() {}
 
-    public Subject(Integer id, String name_subject) {
+    public Subject(Integer id, String name) {
         this.id = id;
-        this.name_subject = name_subject;
+        this.name = name;
     }
 
-    public Subject(String name_subject) {
-        this.name_subject = name_subject;
+    public Subject(String name) {
+        this.name = name;
     }
 }
