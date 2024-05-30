@@ -382,4 +382,34 @@ public class Network {
                     }
                 });
     }
+    public void deleteMarkById(Handler handler, Integer markId) {
+        retrofitService retrofitService = new retrofitService();
+        MarkAPI markAPI = retrofitService.getRetrofit().create(MarkAPI.class);
+        markAPI.deleteMarkById(markId)
+                .enqueue(new Callback<Mark>() {
+                    @Override
+                    public void onResponse(Call<Mark> call, Response<Mark> response) {
+                        String response_code = response.toString().substring(response.toString().indexOf("code=")+5, response.toString().indexOf("code=")+8);
+                        Message msg = new Message();
+                        if (response_code.equals("200")) {
+                            msg.obj = response.body();
+                            msg.what = 200;
+                            Log.d("DEL_MARK_BY_ID", "SUCCESS");
+                        }
+                        else {
+                            msg.what = Integer.parseInt(response_code);
+                            Log.d("DEL_MARK_ERR", response_code);
+                        }
+                        handler.sendMessage(msg);
+                    }
+
+                    @Override
+                    public void onFailure(Call<Mark> call, Throwable t) {
+                        Log.d("SERVER_ERROR", t.toString());
+                        Message msg = new Message();
+                        msg.what = 500;
+                        handler.sendMessage(msg);
+                    }
+                });
+    }
 }

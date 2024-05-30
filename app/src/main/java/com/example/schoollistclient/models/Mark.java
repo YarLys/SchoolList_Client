@@ -1,5 +1,8 @@
 package com.example.schoollistclient.models;
-public class Mark {
+
+import java.io.Serializable;
+
+public class Mark implements Serializable {
     private Integer id;
     private Integer id_student;
     private Integer subject_id;

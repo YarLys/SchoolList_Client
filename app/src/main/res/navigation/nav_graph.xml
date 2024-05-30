@@ -91,5 +91,26 @@
         <argument
             android:name="StudentInfo"
             app:argType="com.example.schoollistclient.models.Student" />
+        <action
+            android:id="@+id/action_studentEdit_to_markEdit"
+            app:destination="@id/markEdit" />
+    </fragment>
+    <fragment
+        android:id="@+id/markEdit"
+        android:name="com.example.schoollistclient.MarkEdit"
+        android:label="fragment_mark_edit"
+        tools:layout="@layout/fragment_mark_edit" >
+        <action
+            android:id="@+id/action_markEdit_to_studentEdit"
+            app:destination="@id/studentEdit" />
+        <argument
+            android:name="MarkInfo"
+            app:argType="com.example.schoollistclient.models.Mark" />
+        <argument
+            android:name="MarkSubject"
+            app:argType="string" />
+        <argument
+            android:name="MarkWorkload"
+            app:argType="string" />
     </fragment>
 </navigation>

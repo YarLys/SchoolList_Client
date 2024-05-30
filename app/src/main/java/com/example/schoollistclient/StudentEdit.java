@@ -124,7 +124,7 @@ public class StudentEdit extends Fragment implements SwipeRefreshLayout.OnRefres
         chooseSubjectMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (!chooseSubjectMenu.getText().toString().equals("Любой")) {
+                if (!chooseSubjectMenu.getText().toString().equals("Любой") && !chooseSubjectMenu.getText().toString().isEmpty()) {
                     showStudentSubjectMarks(student.getId());
                 }
                 else showStudentMarks(student.getId());
@@ -189,10 +189,11 @@ public class StudentEdit extends Fragment implements SwipeRefreshLayout.OnRefres
                 chooseSubject.setAdapter(adapter);
                 chooseSubject.setThreshold(1);
 
+                ArrayList<String> names2 = names;
                 // выпадающий список, где можно выбирать предмет, оценки за который будут отображаться
                 chooseSubjectMenu = view.findViewById(R.id.Choose_subject_menu);
-                names.add("Любой");
-                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(view.getContext(), android.R.layout.select_dialog_singlechoice, names);
+                names2.add("Любой");
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(view.getContext(), android.R.layout.select_dialog_singlechoice, names2);
                 adapter2.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
                 chooseSubjectMenu.setAdapter(adapter2);
                 chooseSubjectMenu.setThreshold(1);
@@ -305,6 +306,13 @@ public class StudentEdit extends Fragment implements SwipeRefreshLayout.OnRefres
 
     @Override
     public void recyclerViewClickListened(View view, int position) {
-
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("MarkInfo", marks.get(position));
+        TextView tv1 = view.findViewById(R.id.mark_subject);
+        TextView tv2 = view.findViewById(R.id.mark_workload);
+        bundle.putString("MarkSubject", tv1.getText().toString()); // пофиксить
+        bundle.putString("MarkWorkload", tv2.getText().toString());
+        bundle.putSerializable("StudentInfo", (Student) mParam1);
+        Navigation.findNavController(view).navigate(R.id.action_studentEdit_to_markEdit, bundle);
     }
 }
