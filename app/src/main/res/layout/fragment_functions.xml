@@ -6,7 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="left"
-    tools:context=".Functions">
+    tools:context=".Functions"
+    android:background="@drawable/background_9">
 
     <TextView
         android:layout_width="match_parent"
@@ -52,16 +53,22 @@
             </AutoCompleteTextView>
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/Functions_add_class"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:text="Добавить класс"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button_2"
+        android:elevation="6dp"
+        android:stateListAnimator="@null"
+        android:translationZ="4dp"
         android:textSize="20dp">
-    </Button>
+    </androidx.appcompat.widget.AppCompatButton>
     <EditText
         android:id="@+id/ET_disciplinename"
         android:layout_marginTop="20dp"
@@ -71,16 +78,22 @@
         android:textSize="20dp"
         android:layout_gravity="center">
     </EditText>
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/Functions_add_discipline"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:text="Добавить дисциплину"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button_2"
+        android:elevation="6dp"
+        android:stateListAnimator="@null"
+        android:translationZ="4dp"
         android:textSize="20dp">
-    </Button>
+    </androidx.appcompat.widget.AppCompatButton>
     <EditText
         android:id="@+id/ET_workloadname"
         android:layout_marginTop="20dp"
@@ -90,15 +103,21 @@
         android:textSize="18dp"
         android:layout_gravity="center">
     </EditText>
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/Functions_add_workload"
-        android:layout_width="wrap_content"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:text="Добавить учебную нагрузку"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button_2"
+        android:elevation="6dp"
+        android:stateListAnimator="@null"
+        android:translationZ="4dp"
         android:textSize="20dp">
-    </Button>
+    </androidx.appcompat.widget.AppCompatButton>
 
 </LinearLayout>

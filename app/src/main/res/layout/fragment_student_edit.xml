@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".StudentEdit"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/background_6">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -118,21 +119,34 @@
             android:layout_weight="2">
         </EditText>
     </LinearLayout>
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/B_add_mark"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Добавить оценку"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button_2"
+        android:elevation="6dp"
+        android:stateListAnimator="@null"
+        android:translationZ="4dp"
         android:textSize="15dp">
-    </Button>
-    <Button
+    </androidx.appcompat.widget.AppCompatButton>
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/B_delete_student"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:layout_gravity="center"
         android:text="Удалить ученика"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button_2"
+        android:elevation="6dp"
+        android:stateListAnimator="@null"
+        android:translationZ="4dp"
         android:textSize="15dp">
-    </Button>
+    </androidx.appcompat.widget.AppCompatButton>
 
 </LinearLayout>

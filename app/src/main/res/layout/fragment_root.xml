@@ -1,33 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".root"
-    android:orientation="vertical"
-    android:gravity="center">
-
+    android:background="@drawable/background_7">
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Добро пожаловать в приложение для создания и редактирования электронных журналов!"
-        android:textSize="20dp"
-        android:textStyle="bold">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="top"
+            android:layout_marginTop="100dp"
+            android:text="Добро пожаловать в приложение для создания и редактирования электронных журналов!"
+            android:textSize="20dp"
+            android:fontFamily="sans-serif-smallcaps"
+            style="@style/mainText">
     </TextView>
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/BTOLOG"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
         android:text="Войти в аккаунт"
-        android:textSize="20dp">
-    </Button>
-    <Button
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button_2"
+        android:elevation="6dp"
+        android:stateListAnimator="@null"
+        android:translationZ="4dp"
+        android:textSize="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="105dp"
+        android:layout_centerHorizontal="true">
+    </androidx.appcompat.widget.AppCompatButton>
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/BTOREG"
-        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="Зарегистрироваться"
-        android:textSize="20dp">
-    </Button>
-
-</LinearLayout>
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button_2"
+        android:elevation="6dp"
+        android:stateListAnimator="@null"
+        android:translationZ="4dp"
+        android:textSize="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:textColorHighlight="@color/light_blue">
+    </androidx.appcompat.widget.AppCompatButton>
+</RelativeLayout>

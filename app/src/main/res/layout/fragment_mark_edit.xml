@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MarkEdit">
+    tools:context=".MarkEdit"
+    android:background="@drawable/background_8">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -91,6 +92,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="20dp">
         <EditText
+            android:layout_marginTop="90dp"
             android:id="@+id/ET_new_mark_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -99,6 +101,7 @@
             android:layout_marginLeft="70dp">
         </EditText>
         <EditText
+            android:layout_marginTop="90dp"
             android:id="@+id/ET_new_mark_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -107,23 +110,35 @@
             android:layout_marginRight="70dp">
         </EditText>
     </LinearLayout>
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/B_update_mark"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="Обновить оценку"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button_2"
+        android:elevation="6dp"
+        android:stateListAnimator="@null"
+        android:translationZ="4dp"
         android:textSize="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="40dp"
         android:layout_gravity="center">
-    </Button>
-    <Button
+    </androidx.appcompat.widget.AppCompatButton>
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/B_delete_mark"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="Удалить оценку"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button_2"
+        android:elevation="6dp"
+        android:stateListAnimator="@null"
+        android:translationZ="4dp"
         android:textSize="20dp"
         android:layout_marginTop="10dp"
         android:layout_gravity="center">
-    </Button>
+    </androidx.appcompat.widget.AppCompatButton>
 
 </LinearLayout>

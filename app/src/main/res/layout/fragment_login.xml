@@ -1,38 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    tools:context=".Login">
+    tools:context=".Login"
+    android:background="@drawable/background_7">
 
     <TextView
         android:layout_width="400dp"
         android:layout_height="55dp"
+        style="@style/mainText"
         android:text="Пожалуйста, введите ваши логин и пароль"
-        android:textStyle="bold"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true"
         android:textSize="20dp"
         android:gravity="center">
     </TextView>
     <EditText
         android:id="@+id/LOGETemail"
         android:layout_width="300dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:hint="Введите свой email">
     </EditText>
     <EditText
         android:id="@+id/LOGETpassword"
         android:layout_width="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="400dp"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
         android:hint="Введите свой пароль">
     </EditText>
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/BLOGTOPROF"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="Войти"
-        android:textSize="20dp">
-    </Button>
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button_2"
+        android:elevation="6dp"
+        android:stateListAnimator="@null"
+        android:translationZ="4dp"
+        android:textSize="23dp"
+        android:text="Войти">
+    </androidx.appcompat.widget.AppCompatButton>
 
-</LinearLayout>
+</RelativeLayout>

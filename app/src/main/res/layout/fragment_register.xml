@@ -5,21 +5,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".Register">
+    tools:context=".Register"
+    android:background="@drawable/background_7">
     <LinearLayout
         android:layout_width="400dp"
         android:layout_height="500dp"
         android:gravity="center"
-        android:orientation="vertical"
-        android:background="@color/orange">
+        android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
         android:text="Пожалуйста, заполните все необходимые поля."
         android:textSize="20dp"
         android:gravity="center"
-        android:textStyle="bold">
+        style="@style/mainText">
     </TextView>
     <EditText
         android:id="@+id/ETfname"
@@ -64,12 +65,18 @@
         android:textSize="20dp">
     </EditText>
     </LinearLayout>
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/BREGTOPROF"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="55dp"
         android:text="Зарегистрироваться"
-        android:textSize="20dp">
-    </Button>
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button_2"
+        android:elevation="6dp"
+        android:stateListAnimator="@null"
+        android:translationZ="4dp"
+        android:textSize="21dp">
+    </androidx.appcompat.widget.AppCompatButton>
 
 </LinearLayout>

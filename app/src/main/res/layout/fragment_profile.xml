@@ -5,13 +5,15 @@
     android:layout_height="match_parent"
     tools:context=".profile"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@drawable/background_9">
 
     <TextView
         android:id="@+id/Your_profile"
         android:layout_marginBottom="50dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/mainText"
         android:text="Ваш профиль"
         android:textSize="30dp">
     </TextView>
@@ -65,29 +67,47 @@
             android:layout_gravity="left">
         </TextView>
     </LinearLayout>
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/Go_to_list"
-        android:layout_marginTop="30dp"
-        android:layout_width="wrap_content"
+        android:layout_marginTop="160dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="Перейти к журналу"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button_2"
+        android:elevation="6dp"
+        android:stateListAnimator="@null"
+        android:translationZ="4dp"
         android:textSize="21dp">
-    </Button>
-    <Button
+    </androidx.appcompat.widget.AppCompatButton>
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/Go_to_functions"
         android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="Дополнительные функции"
-        android:textSize="17dp">
-    </Button>
-    <Button
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button_2"
+        android:elevation="6dp"
+        android:stateListAnimator="@null"
+        android:translationZ="4dp"
+        android:textSize="21dp">
+    </androidx.appcompat.widget.AppCompatButton>
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/Sign_out"
         android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="Выйти из аккаунта"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button_2"
+        android:elevation="6dp"
+        android:stateListAnimator="@null"
+        android:translationZ="4dp"
         android:textSize="21dp">
-    </Button>
+    </androidx.appcompat.widget.AppCompatButton>
 
 </LinearLayout>
