@@ -8,41 +8,121 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_margin="5dp">
 
-        <TextView
-            android:id="@+id/TV_mark_subject"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:gravity="center"></TextView>
-        <TextView
-            android:id="@+id/TV_mark_workload"
+            android:layout_height="80dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Предмет:"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:textStyle="bold">
+            </TextView>
+            <TextView
+                android:id="@+id/TV_mark_subject"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:gravity="center"></TextView>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:gravity="center"></TextView>
-        <TextView
-            android:id="@+id/TV_mark_value"
+            android:layout_height="80dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Вид нагрузки:"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:textStyle="bold">
+            </TextView>
+            <TextView
+                android:id="@+id/TV_mark_workload"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:gravity="center"></TextView>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="6"
-            android:gravity="center"></TextView>
-        <TextView
-            android:id="@+id/TV_mark_date"
+            android:layout_height="80dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Оценка:"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:textStyle="bold">
+            </TextView>
+            <TextView
+                android:id="@+id/TV_mark_value"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:gravity="center"></TextView>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:gravity="center"></TextView>
+            android:layout_height="80dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Дата:"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:textStyle="bold">
+            </TextView>
+            <TextView
+                android:id="@+id/TV_mark_date"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:gravity="center"></TextView>
+        </LinearLayout>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+        <EditText
+            android:id="@+id/ET_new_mark_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Введите оценку"
+            android:gravity="center"
+            android:layout_marginLeft="70dp">
+        </EditText>
+        <EditText
+            android:id="@+id/ET_new_mark_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Введите дату"
+            android:gravity="center"
+            android:layout_marginRight="70dp">
+        </EditText>
+    </LinearLayout>
+    <Button
+        android:id="@+id/B_update_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Обновить оценку"
+        android:textSize="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center">
+    </Button>
     <Button
         android:id="@+id/B_delete_mark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Удалить оценку"
         android:textSize="20dp"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center">
     </Button>
 

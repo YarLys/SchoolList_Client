@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class MarkEdit extends Fragment {
     private String mParam2;
     private String mParam3;
     private Serializable mParam4;
+    private Mark mark;
     View view;
 
     public MarkEdit() {
@@ -85,16 +87,52 @@ public class MarkEdit extends Fragment {
         TextView value = view.findViewById(R.id.TV_mark_value);
         TextView date = view.findViewById(R.id.TV_mark_date);
 
-        Mark mark = (Mark) mParam1;
+        mark = (Mark) mParam1;
         subject.setText(mParam2);
         workload.setText(mParam3);
         value.setText(mark.getValue().toString());
         date.setText(mark.getDate());
 
+        // Обработка нажатия клавиши обновления оценки
+        updateMark();
+
         // Обработка нажатия клавиши удаления оценки
         deleteMark(mark);
 
         return view;
+    }
+
+    public void updateMark() {
+        Button buttonUpdate = view.findViewById(R.id.B_update_mark);
+        EditText new_value = view.findViewById(R.id.ET_new_mark_value);
+        EditText new_date = view.findViewById(R.id.ET_new_mark_date);
+        buttonUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!new_value.getText().toString().isEmpty() && !new_date.getText().toString().isEmpty()) {
+                    mark.setValue(Integer.valueOf(new_value.getText().toString()));
+                    mark.setDate(new_date.getText().toString());
+                    Network network = new Network();
+                    Handler markHandler = new Handler(msg -> {
+                        if (msg.what == 200) {
+                            Log.d("Update_mark", "SUCCESS");
+                            Toast.makeText(getContext(), "Вы успешно обновили оценку!", Toast.LENGTH_LONG).show();
+                            TextView value = view.findViewById(R.id.TV_mark_value);
+                            value.setText(new_value.getText().toString());
+                            TextView date = view.findViewById(R.id.TV_mark_date);
+                            date.setText(new_date.getText().toString());
+                        }
+                        else Log.d("Update_mark", "ERROR");
+                        return false;
+                    });
+                    network.updateMark(markHandler, mark);
+                }
+                else {
+                    if (new_value.getText().toString().isEmpty()) new_value.setError("Оценка не может быть пустой!");
+                    if (new_date.getText().toString().isEmpty()) new_date.setError("Дата не может быть пустой!");
+                }
+            }
+        });
     }
 
     public void deleteMark(Mark mark) {

@@ -96,22 +96,24 @@ public class StudentEdit extends Fragment implements SwipeRefreshLayout.OnRefres
         TextView lname = view.findViewById(R.id.TV_student_lname);
         TextView phone = view.findViewById(R.id.TV_student_phone);
         TextView classid = view.findViewById(R.id.TV_student_classid);
+        chooseSubjectMenu = view.findViewById(R.id.Choose_subject_menu);
         surname.setText(student.getSurname());
         fname.setText(student.getFirst_name());
         lname.setText(student.getLast_name());
         phone.setText(student.getPhone());
         classid.setText(student.getId_class());
 
+        // Получим список всех уч. нагрузок и предметов, чтобы добавить их в выпадающие списки
+        getAndShowSubjects();
+        getAndShowWorkloads();
+
         // Получим список оценок ученика и отобразим их
         showStudentMarks(student.getId());
 
         // Обработка обновления страницы пользователем
+        chooseSubjectMenu.clearListSelection();
         refreshLayout = view.findViewById(R.id.Refresh_layout_2);
         refreshLayout.setOnRefreshListener(this);
-
-        // Получим список всех уч. нагрузок и предметов, чтобы добавить их в выпадающие списки
-        getAndShowSubjects();
-        getAndShowWorkloads();
 
         // Обработка нажатия клавиши добавления оценки
         addMark(student.getId());
@@ -300,7 +302,7 @@ public class StudentEdit extends Fragment implements SwipeRefreshLayout.OnRefres
     @Override
     public void onRefresh() {
         showStudentMarks(((Student) mParam1).getId());
-        if (!chooseSubjectMenu.getText().toString().equals("Любой")) showStudentSubjectMarks(((Student) mParam1).getId());
+        //if (!chooseSubjectMenu.getText().toString().isEmpty() && !chooseSubjectMenu.getText().toString().equals("Любой")) showStudentSubjectMarks(((Student) mParam1).getId());
         refreshLayout.setRefreshing(false);
     }
 
@@ -310,7 +312,7 @@ public class StudentEdit extends Fragment implements SwipeRefreshLayout.OnRefres
         bundle.putSerializable("MarkInfo", marks.get(position));
         TextView tv1 = view.findViewById(R.id.mark_subject);
         TextView tv2 = view.findViewById(R.id.mark_workload);
-        bundle.putString("MarkSubject", tv1.getText().toString()); // пофиксить
+        bundle.putString("MarkSubject", tv1.getText().toString());
         bundle.putString("MarkWorkload", tv2.getText().toString());
         bundle.putSerializable("StudentInfo", (Student) mParam1);
         Navigation.findNavController(view).navigate(R.id.action_studentEdit_to_markEdit, bundle);

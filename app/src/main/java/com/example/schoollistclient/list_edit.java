@@ -105,6 +105,7 @@ public class list_edit extends Fragment implements SwipeRefreshLayout.OnRefreshL
         addStudent();
 
         // Если был выбран класс
+        chooseClass = view.findViewById(R.id.Choose_class);
         chooseClass.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -159,29 +160,29 @@ public class list_edit extends Fragment implements SwipeRefreshLayout.OnRefreshL
                 students = (ArrayList<Student>) msg.obj;
                 StudentsAdapter studentsAdapter = new StudentsAdapter(getContext(), students, this); // создаем адаптер
                 recyclerView.setAdapter(studentsAdapter); // устанавливаем адаптер
+
+                // Раз получили список студентов, можем отобразить возможные классы в выпадающем списке
+                ArrayList<String> studentsClasses = new ArrayList<>();
+                studentsClasses.add("Любой");
+                for (int i = 0; i < students.size(); i++) {
+                    if (!studentsClasses.contains(students.get(i).getId_class())) {
+                        studentsClasses.add(students.get(i).getId_class());
+                    }
+                }
+                // выпадающий список, где можно выбирать класс учеников
+                chooseClass = view.findViewById(R.id.Choose_class);
+                chooseClass.setText("Любой");
+                // Создаем адаптер ArrayAdapter с помощью массива строк и стандартной разметки
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.select_dialog_singlechoice, studentsClasses);
+                // Определяем разметку для использования при выборе элемента
+                adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+                // Добавляем адаптер выпадающему списку
+                chooseClass.setAdapter(adapter);
+                chooseClass.setThreshold(1);
             }
             return false;
         });
         network.getStudents(studentsHandler);
-
-        // Раз получили список студентов, можем отобразить возможные классы в выпадающем списке
-        ArrayList<String> studentsClasses = new ArrayList<>();
-        studentsClasses.add("Любой");
-        for (int i = 0; i < students.size(); i++) {
-            if (!studentsClasses.contains(students.get(i).getId_class())) {
-                studentsClasses.add(students.get(i).getId_class());
-            }
-        }
-        // выпадающий список, где можно выбирать класс учеников
-        chooseClass = view.findViewById(R.id.Choose_class);
-        chooseClass.setText("Любой");
-        // Создаем адаптер ArrayAdapter с помощью массива строк и стандартной разметки
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.select_dialog_singlechoice, studentsClasses);
-        // Определяем разметку для использования при выборе элемента
-        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        // Добавляем адаптер выпадающему списку
-        chooseClass.setAdapter(adapter);
-        chooseClass.setThreshold(1);
     }
 
     private void showStudentsByClass(String classId) {
@@ -202,7 +203,7 @@ public class list_edit extends Fragment implements SwipeRefreshLayout.OnRefreshL
     @Override
     public void onRefresh() {
         showStudents(); // обновим при возвращении, всё норм будет
-        if (chooseClass.getText().toString().equals("Любой")) showStudents();
+        if (chooseClass.getText().toString().equals("Любой") || chooseClass.getText().toString().isEmpty()) showStudents();
         else showStudentsByClass(chooseClass.getText().toString());
         refreshLayout.setRefreshing(false);
     }
